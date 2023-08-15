@@ -23,6 +23,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Heading } from "@/components/ui/heading";
 import { AlertModal } from "@/components/modals/alert-modal";
+import ImageUpload from "@/components/ui/image-upload";
 // import ImageUpload from "@/components/ui/image-upload"
 
 const formSchema = z.object({
@@ -65,14 +66,17 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
       setLoading(true);
       console.log(data);
 
-      //   if (initialData) {
-      //     await axios.patch(`/api/${params.storeId}/billboards/${params.billboardId}`, data);
-      //   } else {
-      //     await axios.post(`/api/${params.storeId}/billboards`, data);
-      //   }
-      //   router.refresh();
-      //   router.push(`/${params.storeId}/billboards`);
-      //   toast.success(toastMessage);
+      if (initialData) {
+        await axios.patch(
+          `/api/${params.storeId}/billboards/${params.billboardId}`,
+          data
+        );
+      } else {
+        await axios.post(`/api/${params.storeId}/billboards`, data);
+      }
+      router.refresh();
+      router.push(`/${params.storeId}/billboards`);
+      toast.success(toastMessage);
     } catch (error: any) {
       toast.error("Something went wrong.");
     } finally {
@@ -133,12 +137,12 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
               <FormItem>
                 <FormLabel>Background image</FormLabel>
                 <FormControl>
-                  {/* <ImageUpload 
-                      value={field.value ? [field.value] : []} 
-                      disabled={loading} 
-                      onChange={(url) => field.onChange(url)}
-                      onRemove={() => field.onChange('')}
-                    /> */}
+                  <ImageUpload
+                    value={field.value ? [field.value] : []}
+                    disabled={loading}
+                    onChange={(url) => field.onChange(url)}
+                    onRemove={() => field.onChange("")}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
